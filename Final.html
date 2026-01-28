@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mahalakshmi Financial Services | Divine Wealth & Gold Investment</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Icons & Styling -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Charting Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    
+    <!-- PDF Generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+    <style>
+        :root {
+            --lakshmi-gold: #FFD700;
+            --antique-gold: #DAA520;
+            --kumkum-red: #8B0000;
+            --saffron: #FF9933;
+            --silver-glow: 0 0 15px rgba(192, 192, 192, 0.4);
+            --gold-gradient: linear-gradient(135deg, #FFD700 0%, #FDB931 50%, #FFD700 100%);
+            --royal-gradient: linear-gradient(135deg, #8B0000 0%, #5e0000 100%);
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #FFF8E7;
+            background-image: radial-gradient(#DAA520 1px, transparent 1px);
+            background-size: 30px 30px;
+            color: #333;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, .divine-text {
+            font-family: 'Cinzel', serif;
+        }
+
+        /* Animations */
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes shimmer { 0% { background-position: -1000px 0; } 100% { background-position: 1000px 0; } }
+
+        .animate-float { animation: float 4s ease-in-out infinite; }
+        .animate-fade-in { animation: fadeIn 0.6s ease-out forwards; }
+        .shimmer-effect {
+            animation: shimmer 3s infinite linear;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+            background-size: 1000px 100%;
+        }
+
+        /* Gold Button Style */
+        .btn-gold {
+            background: var(--gold-gradient);
+            color: #5C0000;
+            border: 1px solid #B8860B;
+            box-shadow: 0 4px 15px rgba(218, 165, 32, 0.4);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(218, 165, 32, 0.6);
+            filter: brightness(1.05);
+        }
+
+        /* Premium Consultation Card */
+        .premium-card {
+            background: var(--royal-gradient);
+            color: #FFD700;
+            border: 2px solid #FFD700;
+            position: relative;
+            overflow: hidden;
+        }
+        .premium-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23FFD700' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        /* Glass Card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(218, 165, 32, 0.3);
+            box-shadow: 0 10px 30px rgba(139, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(139, 0, 0, 0.1), var(--silver-glow);
+            border-color: var(--lakshmi-gold);
+        }
+
+        .step-hidden { display: none; }
+        .step-active { display: block; animation: fadeIn 0.5s ease-out; }
+
+        /* Loader */
+        .om-loader { font-family: 'Cinzel', serif; font-size: 4rem; color: var(--saffron); animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; text-shadow: 0 0 30px #FF9933; } 100% { transform: scale(1); opacity: 0.8; } }
+        
+        .smallcase-card {
+            border-left: 6px solid var(--kumkum-red);
+            background: linear-gradient(135deg, #fff 0%, #fffbf0 100%);
+        }
+
+        /* Duration Toggles */
+        .duration-option { transition: all 0.2s; }
+        .duration-option.active {
+            background: var(--gold-gradient); color: #5C0000; border-color: #B8860B;
+            font-weight: bold; transform: scale(1.02);
+        }
+        
+        /* Analysis Box */
+        .analysis-box {
+            background: #fdfdfd;
+            border: 1px dashed #DAA520;
+        }
+        .gap-alert { color: #dc2626; font-weight: bold; }
+        .gap-success { color: #16a34a; font-weight: bold; }
+
+        /* --- CALCULATOR STYLES --- */
+        .calc-fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 100;
+            background: var(--royal-gradient);
+            color: #FFD700;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(139, 0, 0, 0.5);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid #FFD700;
+        }
+        .calc-fab:hover {
+            transform: scale(1.1) rotate(15deg);
+        }
+
+        .calc-modal-backdrop {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .calc-modal-backdrop.open {
+            display: flex;
+            opacity: 1;
+        }
+
+        .calc-modal-content {
+            background: white;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            padding: 30px;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid #FFD700;
+        }
+        .calc-modal-backdrop.open .calc-modal-content {
+            transform: scale(1);
+        }
+
+        /* Custom Range Slider for Calculator */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            background: #e5e7eb;
+            border-radius: 5px;
+            outline: none;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #8B0000;
+            border: 2px solid #FFD700;
+            cursor: pointer;
+            transition: background .15s ease-in-out;
+        }
+        input[type=range]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .tab-btn {
+            padding: 8px 24px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .tab-btn.active {
+            background: rgba(139, 0, 0, 0.1);
+            color: #8B0000;
+            border: 1px solid #8B0000;
+        }
+        .tab-btn.inactive {
+            color: #6b7280;
+            border: 1px solid transparent;
+        }
+
+        .calc-value-box {
+            background: #fdfdfd; /* Creamy white */
+            color: #8B0000; /* Red Text */
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            min-width: 100px;
+            text-align: right;
+            border: 1px solid #eee;
+            background-color: rgba(218, 165, 32, 0.1); /* Light Gold tint */
+        }
+
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Marquee -->
+    <div class="bg-[#2c0000] text-[#FFD700] text-xs py-2 overflow-hidden whitespace-nowrap border-b-2 border-[#FFD700] shadow-md z-50">
+        <div class="inline-block animate-[float_15s_linear_infinite] px-4 font-bold tracking-wider">
+            ✨ "Wealth consists not in having great possessions, but in having few wants." - Epictetus &nbsp;&nbsp; 🕉️ "Subham Astu - May Goodness Be With You" &nbsp;&nbsp; 📈 Market Update: Sensex ▲ 0.4% | Nifty ▲ 0.35% | Gold ▲ 1.2% ✨
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="bg-[#8B0000] text-[#FFD700] shadow-xl sticky top-0 z-40 bg-opacity-95 backdrop-blur-sm">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <button id="globalBackBtn" onclick="handleGlobalBack()" class="hidden hover:bg-[#a00000] p-2 rounded-full transition duration-300 mr-2" aria-label="Go Back">
+                    <i data-lucide="arrow-left" class="w-6 h-6"></i>
+                </button>
+                <i data-lucide="flower" class="w-8 h-8 animate-float text-[#FFD700]"></i>
+                <a href="#" onclick="location.reload()" class="text-xl md:text-2xl font-bold tracking-widest divine-text hover:text-white transition drop-shadow-md">MAHALAKSHMI</a>
+            </div>
+            <div class="hidden md:flex space-x-6 text-sm font-bold tracking-wide items-center">
+                <a href="#footer" class="hover:text-white transition">PHILOSOPHY</a>
+                <a href="https://wa.me/919443533619" target="_blank" class="bg-white text-[#8B0000] px-5 py-2 rounded-full hover:bg-[#FFD700] transition flex items-center gap-2 font-bold shadow-lg border-2 border-[#FFD700]">
+                    <i data-lucide="message-circle" class="w-4 h-4"></i> CONTACT
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow container mx-auto px-4 py-8 relative">
+        
+        <!-- Divine Aura Blobs -->
+        <div class="absolute top-10 left-0 w-40 h-40 bg-orange-300 rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-blob"></div>
+        <div class="absolute top-10 right-0 w-40 h-40 bg-yellow-300 rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-blob animation-delay-2000"></div>
+
+        <!-- HERO SECTION -->
+        <div id="heroSection" class="text-center mb-16 animate-fade-in relative z-10 pt-10">
+            <div class="inline-block p-2 px-6 rounded-full bg-orange-50 text-[#8B0000] border border-[#FFD700] mb-6 text-xs font-bold tracking-widest uppercase shadow-md">
+                🕉️ Subham Astu (Let there be goodness)
+            </div>
+            <h1 class="text-5xl md:text-7xl font-bold mb-6 text-[#8B0000] leading-tight drop-shadow-sm">
+                Wealth is <span class="text-gold-gradient">Divine</span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-700 max-w-2xl mx-auto mb-10 leading-relaxed font-medium">
+                Experience financial planning blessed with the wisdom of stability and growth. 
+                Tailored investment strategies including Gold, Mutual Funds, and Stocks.
+            </p>
+            <div class="flex flex-col md:flex-row justify-center gap-6">
+                <button onclick="startQuiz()" class="btn-gold py-4 px-12 rounded-full text-lg font-bold shadow-xl flex items-center justify-center gap-2 relative overflow-hidden group">
+                    <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                    <span>Start Wealth Journey</span>
+                    <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- QUIZ CONTAINER -->
+        <div id="quizContainer" class="hidden max-w-2xl mx-auto my-10">
+            <div class="glass-card rounded-2xl p-8 relative overflow-hidden border-2 border-[#FFD700]">
+                <!-- Progress Bar -->
+                <div class="absolute top-0 left-0 w-full h-2 bg-gray-200">
+                    <div id="progressBar" class="h-full bg-[#8B0000] transition-all duration-500 shadow-[0_0_10px_#8B0000]" style="width: 0%"></div>
+                </div>
+
+                <!-- Step 1: Personal Details -->
+                <div id="step1" class="step-active">
+                    <h2 class="text-2xl font-bold text-[#8B0000] mb-6 flex items-center gap-2 border-b border-orange-100 pb-2">
+                        <i data-lucide="user" class="w-6 h-6 text-[#FFD700]"></i> Personal Details
+                    </h2>
+                    <div class="space-y-5">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Full Name</label>
+                                <input type="text" id="userName" class="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8B0000] focus:border-[#8B0000] outline-none transition bg-white/50" placeholder="Enter your name">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Age</label>
+                                <input type="number" id="userAge" class="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8B0000] focus:border-[#8B0000] outline-none transition bg-white/50" placeholder="e.g. 25">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Mobile Number</label>
+                                <div class="flex">
+                                    <span class="inline-flex items-center px-4 rounded-l-lg border border-r-0 border-gray-300 bg-gray-100 text-gray-600 text-sm font-bold">+91</span>
+                                    <input type="tel" id="userMobile" class="w-full p-4 border border-gray-300 rounded-r-lg focus:ring-2 focus:ring-[#8B0000] focus:border-[#8B0000] outline-none" placeholder="98765 43210">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Email Address</label>
+                                <input type="email" id="userEmail" class="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8B0000] focus:border-[#8B0000] outline-none" placeholder="you@gmail.com">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Location</label>
+                            <select id="userLocation" class="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8B0000] outline-none bg-white">
+                                <option value="Chennai">Chennai, Tamil Nadu</option>
+                                <option value="Coimbatore">Coimbatore, Tamil Nadu</option>
+                                <option value="Madurai">Madurai, Tamil Nadu</option>
+                                <option value="OtherTN">Other (Tamil Nadu)</option>
+                                <option value="OutsideTN">Outside Tamil Nadu</option>
+                            </select>
+                        </div>
+                        <button type="button" onclick="nextStep(1)" class="w-full btn-gold py-4 rounded-lg mt-6 shadow-lg flex justify-center items-center gap-2 font-bold text-[#5C0000]">
+                            Next Step <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Financials (ONE TIME DURATION INPUT) -->
+                <div id="step2" class="step-hidden">
+                    <h2 class="text-2xl font-bold text-[#8B0000] mb-6 flex items-center gap-2 border-b border-orange-100 pb-2">
+                        <i data-lucide="indian-rupee" class="w-6 h-6 text-[#FFD700]"></i> Financial Planning
+                    </h2>
+                    <div class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Monthly Investment Capacity (₹)</label>
+                                <input type="number" id="monthlySavings" class="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8B0000] outline-none transition" placeholder="e.g. 5000">
+                                <p class="text-xs text-gray-500 mt-1">Minimum ₹1,000</p>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Target Goal Amount (Optional)</label>
+                                <input type="number" id="targetAmount" class="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8B0000] outline-none transition" placeholder="e.g. 5000000 (50 Lakhs)">
+                                <p class="text-xs text-gray-500 mt-1">Enter amount if you have a specific target.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- DURATION TOGGLES -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-3">Investment Duration (Years)</label>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                <div onclick="selectDuration('3')" id="dur-3" class="duration-option p-3 border rounded-lg cursor-pointer text-center bg-white shadow-sm hover:shadow-md">
+                                    <div class="font-bold text-lg">3 Yrs</div>
+                                    <div class="text-xs text-gray-500">Short</div>
+                                </div>
+                                <div onclick="selectDuration('5')" id="dur-5" class="duration-option active p-3 border rounded-lg cursor-pointer text-center bg-white shadow-sm hover:shadow-md">
+                                    <div class="font-bold text-lg">5 Yrs</div>
+                                    <div class="text-xs text-gray-500">Medium</div>
+                                </div>
+                                <div onclick="selectDuration('10')" id="dur-10" class="duration-option p-3 border rounded-lg cursor-pointer text-center bg-white shadow-sm hover:shadow-md">
+                                    <div class="font-bold text-lg">10 Yrs</div>
+                                    <div class="text-xs text-gray-500">Long</div>
+                                </div>
+                                <div onclick="selectDuration('15')" id="dur-15" class="duration-option p-3 border rounded-lg cursor-pointer text-center bg-white shadow-sm hover:shadow-md">
+                                    <div class="font-bold text-lg">15+ Yrs</div>
+                                    <div class="text-xs text-gray-500">Wealth</div>
+                                </div>
+                            </div>
+                            <input type="hidden" id="investDuration" value="5">
+                        </div>
+                        
+                        <div class="flex gap-4 mt-6">
+                            <button type="button" onclick="prevStep(2)" class="w-1/3 bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-3 rounded-lg transition">Back</button>
+                            <button type="button" onclick="nextStep(2)" class="w-2/3 btn-gold py-3 rounded-lg shadow-md flex justify-center items-center gap-2 font-bold text-[#5C0000]">
+                                Next: Goals <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Goals -->
+                <div id="step3" class="step-hidden">
+                    <h2 class="text-2xl font-bold text-[#8B0000] mb-6 flex items-center gap-2 border-b border-orange-100 pb-2">
+                        <i data-lucide="target" class="w-6 h-6 text-[#FFD700]"></i> Goals & Risk
+                    </h2>
+                    <div class="space-y-5">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Primary Financial Goal</label>
+                            <select id="financialGoal" class="w-full p-4 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-[#8B0000]">
+                                <option value="wealth">Long Term Wealth Creation</option>
+                                <option value="house">Buying a Dream Home</option>
+                                <option value="retirement">Retirement Planning</option>
+                                <option value="gold">Accumulating Gold</option>
+                                <option value="education">Child's Education</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-3">Risk Tolerance</label>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <div onclick="selectRisk('conservative')" id="risk-conservative" class="risk-card p-4 border rounded-lg cursor-pointer hover:border-[#8B0000] text-center transition bg-white shadow-sm">
+                                    <div class="text-3xl mb-1">🛡️</div>
+                                    <div class="font-bold text-sm">Conservative</div>
+                                    <div class="text-xs text-gray-500">Safety First</div>
+                                </div>
+                                <div onclick="selectRisk('moderate')" id="risk-moderate" class="risk-card p-4 border rounded-lg cursor-pointer hover:border-[#8B0000] text-center transition bg-orange-50 border-[#FF9933] shadow-md">
+                                    <div class="text-3xl mb-1">⚖️</div>
+                                    <div class="font-bold text-sm">Balanced</div>
+                                    <div class="text-xs text-gray-500">Growth + Safety</div>
+                                </div>
+                                <div onclick="selectRisk('aggressive')" id="risk-aggressive" class="risk-card p-4 border rounded-lg cursor-pointer hover:border-[#8B0000] text-center transition bg-white shadow-sm">
+                                    <div class="text-3xl mb-1">🚀</div>
+                                    <div class="font-bold text-sm">Aggressive</div>
+                                    <div class="text-xs text-gray-500">Max Growth</div>
+                                </div>
+                            </div>
+                            <input type="hidden" id="selectedRisk" value="moderate">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Describe your goal (e.g. "I want to build a villa in Ooty")</label>
+                            <textarea id="userReason" class="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8B0000] outline-none transition h-24" placeholder="Share your dream here for a personalized divine quote..."></textarea>
+                        </div>
+                        <div class="flex gap-4 mt-6">
+                            <button type="button" onclick="prevStep(3)" class="w-1/3 bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-3 rounded-lg transition">Back</button>
+                            <button type="button" onclick="generatePlan()" class="w-2/3 bg-[#8B0000] hover:bg-[#600000] text-white font-bold py-3 rounded-lg transition shadow-lg flex justify-center items-center gap-2 border border-[#FFD700]">
+                                <span>Reveal Divine Plan</span>
+                                <i data-lucide="sparkles" class="w-5 h-5 animate-pulse"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LOADING -->
+        <div id="loadingState" class="hidden text-center py-20 animate-fade-in">
+            <div class="om-loader">🕉️</div>
+            <p class="mt-6 text-[#8B0000] font-bold text-2xl divine-text">Consulting the Archives...</p>
+            <p class="text-md text-gray-600 italic">Curating your customized Mahalakshmi Basket...</p>
+        </div>
+
+        <!-- RESULTS DASHBOARD -->
+        <div id="resultsDashboard" class="hidden animate-fade-in pb-24">
+            
+            <div class="text-center mb-8">
+                <div class="inline-block p-2 px-4 rounded-full bg-orange-100 text-[#8B0000] text-xs font-bold mb-2 border border-orange-200">
+                    <span id="marketStatus">● Markets are Open</span>
+                </div>
+                <h2 class="text-4xl font-bold text-[#8B0000] divine-text mb-2">Your Prosperity Basket</h2>
+                <p class="text-gray-600">A tailored collection of assets for <span id="resName" class="font-bold text-[#8B0000]"></span></p>
+            </div>
+
+            <!-- GAJA FINANCE AD (OPTIMIZED) -->
+            <div class="max-w-6xl mx-auto mb-10 transform hover:scale-[1.01] transition duration-300 cursor-pointer px-4">
+                <div class="bg-gradient-to-r from-[#B8860B] to-[#FFD700] rounded-xl p-1 shadow-xl relative overflow-hidden group">
+                     <div class="absolute inset-0 z-10 w-full h-full pointer-events-none shimmer-effect"></div>
+                     <div class="bg-[#2c0000] rounded-lg p-4 md:p-8 flex flex-col md:flex-row justify-between items-center relative z-20">
+                         <div class="text-white text-center md:text-left mb-4 md:mb-0">
+                             <div class="text-[10px] md:text-xs text-[#FFD700] font-bold uppercase tracking-widest mb-1 md:mb-2 border-b border-[#FFD700] inline-block pb-1">Exclusive Opportunity</div>
+                             <h3 class="text-2xl md:text-3xl font-bold text-white mb-1 md:mb-2 divine-text">Gaja Finance FD</h3>
+                             <p class="text-gray-300 text-xs md:text-sm">Secure your future with elephant-sized returns.</p>
+                         </div>
+                         <div class="flex flex-row md:flex-row items-center gap-4 md:gap-6 w-full md:w-auto justify-center">
+                             <div class="text-center bg-white/10 p-2 md:p-3 rounded-lg border border-white/20">
+                                 <div class="text-3xl md:text-5xl font-bold text-[#FFD700]">20%</div>
+                                 <div class="text-[10px] md:text-xs text-gray-300 uppercase tracking-wide">p.a. Returns</div>
+                             </div>
+                             <button onclick="handleGajaClick()" class="btn-gold py-2 px-6 md:py-3 md:px-8 rounded-lg shadow-lg font-bold text-[#5C0000] text-sm md:text-base whitespace-nowrap">
+                                 Invest Now
+                             </button>
+                         </div>
+                     </div>
+                </div>
+            </div>
+
+            <!-- PREMIUM CONSULTATION CTA -->
+            <div class="max-w-6xl mx-auto mb-12 px-4">
+                <div class="premium-card rounded-xl p-8 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6 transform hover:scale-[1.01] transition duration-300">
+                    <div class="relative z-10 text-center md:text-left">
+                        <div class="inline-flex items-center gap-2 bg-[#FFD700] text-[#5C0000] px-3 py-1 rounded-full text-xs font-bold uppercase mb-3">
+                            <i data-lucide="crown" class="w-4 h-4"></i> Premium Access
+                        </div>
+                        <h3 class="text-3xl font-bold text-white mb-2 divine-text">1-to-1 Expert Consultation</h3>
+                        <p class="text-orange-200 max-w-lg text-sm mb-1">
+                            Get personalized investment planning, goal-based strategy, and risk analysis.
+                        </p>
+                    </div>
+                    <div class="relative z-10">
+                        <a onclick="handleWhatsAppPremium()" href="#" class="bg-white hover:bg-green-50 text-green-700 font-bold py-4 px-8 rounded-full shadow-lg transition flex items-center gap-3 border-2 border-green-600">
+                            <i data-lucide="message-circle" class="w-6 h-6 text-green-600"></i>
+                            <span>Apply for Session</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-8 max-w-6xl mx-auto px-4">
+                
+                <!-- Strategy Box (3 Cols) -->
+                <div class="md:col-span-3">
+                    <div id="mainStrategyBox" class="glass-card smallcase-card rounded-xl p-8 transition-all h-full shadow-lg">
+                        <!-- Content Injected via JS -->
+                    </div>
+                </div>
+
+                <!-- Analysis & Chart (2 Cols) -->
+                <div class="md:col-span-2 space-y-6">
+                    
+                    <!-- Goal Analysis Box -->
+                    <div id="goalAnalysisBox" class="analysis-box rounded-xl p-6 shadow-md relative overflow-hidden">
+                        <h4 class="font-bold text-[#8B0000] mb-3 flex items-center gap-2"><i data-lucide="trending-up" class="w-5 h-5"></i> Wealth Projection</h4>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between border-b pb-2">
+                                <span class="text-gray-600">Invested:</span>
+                                <span class="font-bold" id="dispInvested">-</span>
+                            </div>
+                            <div class="flex justify-between border-b pb-2">
+                                <span class="text-gray-600">Proj. Wealth:</span>
+                                <span class="font-bold text-[#8B0000] text-lg" id="dispWealth">-</span>
+                            </div>
+                            <!-- Gap Logic -->
+                            <div id="gapContainer" class="hidden pt-2 bg-red-50 p-3 rounded border border-red-100">
+                                <span class="block text-xs font-bold text-gray-500 uppercase">Target Gap</span>
+                                <span class="block text-sm gap-alert" id="dispGap">-</span>
+                                <span class="block text-xs text-gray-600 mt-1 italic" id="dispAdvice">-</span>
+                            </div>
+                            <div id="surplusContainer" class="hidden pt-2 bg-green-50 p-3 rounded border border-green-100">
+                                <span class="block text-xs font-bold text-gray-500 uppercase">Status</span>
+                                <span class="block text-sm gap-success" id="dispSurplus">On Track!</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pie Chart Box -->
+                    <div class="glass-card rounded-xl p-6 border-t-4 border-[#FF9933]">
+                         <h3 class="font-bold text-sm text-gray-800 mb-4 text-center">Asset Allocation</h3>
+                         <div class="bg-white rounded-lg p-2 mb-4 border border-gray-100 shadow-inner relative" style="height: 200px;">
+                             <canvas id="allocationChart"></canvas>
+                         </div>
+                         <button onclick="downloadPDF()" class="w-full bg-[#8B0000] hover:bg-[#600000] text-white font-bold py-3 rounded-lg shadow-md flex justify-center items-center gap-2 transition border border-[#FFD700]">
+                             <i data-lucide="file-text" class="w-4 h-4"></i> Download Statement (PDF)
+                         </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom CTA -->
+            <div class="text-center mt-12 px-4 pb-12">
+                 <p class="text-sm text-gray-500 font-semibold mb-2">Ready to start?</p>
+                 <div class="flex justify-center gap-4">
+                    <a onclick="handleWhatsAppClick()" href="#" target="_blank" class="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition transform hover:scale-105">
+                        <i data-lucide="message-circle" class="w-5 h-5"></i> Start This Plan via WhatsApp
+                    </a>
+                 </div>
+                <div class="mt-6 text-xs text-gray-400">
+                    *Disclaimer: Investments are subject to market risks. Past performance is not indicative of future returns.
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FLOATING CALCULATOR BUTTON -->
+    <div onclick="toggleCalculator()" class="calc-fab animate-float" title="Open Investment Calculator">
+        <i data-lucide="calculator" class="w-8 h-8"></i>
+    </div>
+
+    <!-- CALCULATOR MODAL -->
+    <div id="calculatorModal" class="calc-modal-backdrop" onclick="closeCalcIfOutside(event)">
+        <div class="calc-modal-content">
+            <button onclick="toggleCalculator()" class="absolute top-4 right-4 text-gray-400 hover:text-red-500">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+
+            <!-- Mode Toggles -->
+            <div class="flex gap-4 mb-8">
+                <button onclick="setCalcMode('sip')" id="btnSip" class="tab-btn active">SIP</button>
+                <button onclick="setCalcMode('lumpsum')" id="btnLump" class="tab-btn inactive">Lumpsum</button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <!-- Left: Inputs -->
+                <div class="space-y-6">
+                    <!-- Amount -->
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <label id="lblAmount" class="font-bold text-gray-700">Monthly Investment</label>
+                            <div class="calc-value-box">₹ <span id="valAmount">25000</span></div>
+                        </div>
+                        <input type="range" id="rngAmount" min="500" max="100000" step="500" value="25000" oninput="updateCalc()">
+                    </div>
+
+                    <!-- Rate -->
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="font-bold text-gray-700">Expected Return (p.a)</label>
+                            <div class="calc-value-box"><span id="valRate">12</span> %</div>
+                        </div>
+                        <input type="range" id="rngRate" min="1" max="30" step="0.5" value="12" oninput="updateCalc()">
+                    </div>
+
+                    <!-- Duration -->
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="font-bold text-gray-700">Time Period</label>
+                            <div class="calc-value-box"><span id="valYear">10</span> Yr</div>
+                        </div>
+                        <input type="range" id="rngYear" min="1" max="40" step="1" value="10" oninput="updateCalc()">
+                    </div>
+                </div>
+
+                <!-- Right: Results & Chart -->
+                <div class="flex flex-col items-center justify-center">
+                    <div class="relative w-48 h-48 mb-6">
+                        <canvas id="calcChart"></canvas>
+                        <!-- Center Text in Donut (Optional) -->
+                        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                            <!-- Could add icon here -->
+                        </div>
+                    </div>
+
+                    <!-- Legends -->
+                    <div class="flex gap-4 text-xs font-bold mb-6">
+                        <div class="flex items-center gap-1">
+                            <span class="w-3 h-3 rounded-full bg-[#f3f4f6]"></span> Invested
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <span class="w-3 h-3 rounded-full bg-[#8B0000]"></span> Returns
+                        </div>
+                    </div>
+
+                    <!-- Summary Stats -->
+                    <div class="w-full space-y-3">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-500">Invested amount</span>
+                            <span class="font-bold" id="resInvested">₹30,00,000</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-500">Est. returns</span>
+                            <span class="font-bold text-[#8B0000]" id="resReturns">₹26,00,897</span>
+                        </div>
+                        <div class="flex justify-between text-lg border-t pt-2 mt-2">
+                            <span class="text-gray-700 font-bold">Total value</span>
+                            <span class="font-bold text-[#8B0000]" id="resTotal">₹56,00,897</span>
+                        </div>
+                    </div>
+
+                    <button onclick="handleWhatsAppPremium()" class="w-full mt-6 bg-[#22c55e] hover:bg-[#16a34a] text-white font-bold py-3 rounded-lg shadow-lg uppercase tracking-wide transition">
+                        INVEST NOW
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer id="footer" class="bg-[#2c0000] text-[#FFD700] py-12 border-t-4 border-[#FFD700]">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold divine-text mb-4 text-white">MAHALAKSHMI FINANCIAL SERVICES</h2>
+            <p class="text-sm opacity-80 mb-8 max-w-xl mx-auto italic">Guiding you towards spiritual and financial abundance through Gold, Equity, and disciplined planning.</p>
+            <div class="flex justify-center gap-8 mb-8">
+                <a href="#" class="hover:text-white transform hover:scale-110 transition opacity-80 hover:opacity-100"><i data-lucide="facebook" class="w-6 h-6"></i></a>
+                <a href="#" class="hover:text-white transform hover:scale-110 transition opacity-80 hover:opacity-100"><i data-lucide="twitter" class="w-6 h-6"></i></a>
+                <a href="#" class="hover:text-white transform hover:scale-110 transition opacity-80 hover:opacity-100"><i data-lucide="instagram" class="w-6 h-6"></i></a>
+            </div>
+            <p class="text-xs text-gray-500">&copy; 2026 Mahalakshmi Financial Services. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Init Icons
+        lucide.createIcons();
+
+        // --- GLOBAL STATE ---
+        let currentStep = 1;
+        const totalSteps = 3;
+        let userData = {
+            name: '', age: '', mobile: '', email: '', location: '',
+            savings: '', duration: '5', target: '', // Added target
+            goal: '', risk: 'moderate', reason: ''
+        };
+        let allocationChartInstance = null;
+
+        // DOM Elements
+        const heroSection = document.getElementById('heroSection');
+        const quizContainer = document.getElementById('quizContainer');
+        const progressBar = document.getElementById('progressBar');
+        const loadingState = document.getElementById('loadingState');
+        const resultsDashboard = document.getElementById('resultsDashboard');
+        const globalBackBtn = document.getElementById('globalBackBtn');
+
+        // --- HELPER: MOTIVATION GENERATOR ---
+        function getDivineWisdom(reason, goal) {
+            const r = (reason || "").toLowerCase();
+            if (r.includes("gold") || goal === 'gold') return "Gold is the tear of the sun. It preserves wealth across generations.";
+            if (r.includes("car") || r.includes("bike")) return "The road to your dream vehicle is paved with disciplined investments.";
+            if (r.includes("home") || r.includes("house")) return "Brick by brick, rupee by rupee, your sanctuary will be built.";
+            if (r.includes("child") || r.includes("education")) return "Knowledge is the greatest wealth. Investing in your child's future is the noblest duty.";
+            if (r.includes("retire")) return "Plant the tree of wealth today so you may rest in its shade tomorrow.";
+            return "With Lakshmi's grace and your discipline, every financial dream is within reach.";
+        }
+
+        function formatCurrency(num) {
+            if(num >= 10000000) return "₹" + (num / 10000000).toFixed(2) + " Cr";
+            if(num >= 100000) return "₹" + (num / 100000).toFixed(2) + " L";
+            return "₹" + Math.round(num).toLocaleString('en-IN');
+        }
+
+        // --- NAVIGATION LOGIC ---
+        function handleGlobalBack() {
+            if (!resultsDashboard.classList.contains('hidden')) {
+                resultsDashboard.classList.add('hidden');
+                quizContainer.classList.remove('hidden');
+                updateBackBtnVisibility();
+                return;
+            }
+            if (!quizContainer.classList.contains('hidden')) {
+                if (currentStep > 1) prevStep(currentStep);
+                else {
+                    quizContainer.classList.add('hidden');
+                    heroSection.style.display = 'block';
+                    updateBackBtnVisibility();
+                }
+            }
+        }
+
+        function updateBackBtnVisibility() {
+            if (heroSection.style.display !== 'none') {
+                globalBackBtn.classList.add('hidden');
+            } else {
+                globalBackBtn.classList.remove('hidden');
+            }
+        }
+
+        function startQuiz() {
+            heroSection.style.display = 'none';
+            quizContainer.classList.remove('hidden');
+            quizContainer.classList.add('animate-fade-in');
+            currentStep = 1;
+            document.querySelectorAll('[id^="step"]').forEach(el => {
+                el.classList.add('step-hidden');
+                el.classList.remove('step-active');
+            });
+            document.getElementById('step1').classList.remove('step-hidden');
+            document.getElementById('step1').classList.add('step-active');
+            updateProgress();
+            updateBackBtnVisibility();
+        }
+
+        function updateProgress() {
+            const progress = ((currentStep - 1) / totalSteps) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        function nextStep(step) {
+            if(step === 1) {
+                const name = document.getElementById('userName').value;
+                const age = document.getElementById('userAge').value;
+                const mobile = document.getElementById('userMobile').value;
+                const email = document.getElementById('userEmail').value;
+                if(!name || !age) { alert("Please fill in your name and age."); return; }
+                userData.name = name; userData.age = age; userData.mobile = mobile; userData.email = email;
+                userData.location = document.getElementById('userLocation').value;
+            }
+            if(step === 2) {
+                const savings = document.getElementById('monthlySavings').value;
+                if(!savings || savings < 1000) { alert("Minimum monthly investment is ₹1000."); return; }
+                userData.savings = savings;
+                userData.target = document.getElementById('targetAmount').value; // Optional
+                userData.duration = document.getElementById('investDuration').value;
+            }
+
+            // Transition
+            document.getElementById(`step${step}`).classList.remove('step-active');
+            document.getElementById(`step${step}`).classList.add('step-hidden');
+            document.getElementById(`step${step+1}`).classList.remove('step-hidden');
+            document.getElementById(`step${step+1}`).classList.add('step-active');
+            currentStep++;
+            updateProgress();
+        }
+
+        function prevStep(current) {
+            document.getElementById(`step${current}`).classList.remove('step-active');
+            document.getElementById(`step${current}`).classList.add('step-hidden');
+            currentStep--;
+            document.getElementById(`step${currentStep}`).classList.remove('step-hidden');
+            document.getElementById(`step${currentStep}`).classList.add('step-active');
+            updateProgress();
+        }
+
+        function selectDuration(duration) {
+            document.querySelectorAll('.duration-option').forEach(el => el.classList.remove('active'));
+            document.getElementById(`dur-${duration}`).classList.add('active');
+            document.getElementById('investDuration').value = duration;
+        }
+
+        function selectRisk(risk) {
+            document.querySelectorAll('.risk-card').forEach(el => {
+                el.classList.remove('bg-orange-50', 'border-[#FF9933]', 'shadow-md');
+                el.classList.add('bg-white', 'shadow-sm');
+            });
+            document.getElementById(`risk-${risk}`).classList.remove('bg-white', 'shadow-sm');
+            document.getElementById(`risk-${risk}`).classList.add('bg-orange-50', 'border-[#FF9933]', 'shadow-md');
+            document.getElementById('selectedRisk').value = risk;
+        }
+
+        function generatePlan() {
+            userData.goal = document.getElementById('financialGoal').value;
+            userData.risk = document.getElementById('selectedRisk').value;
+            userData.reason = document.getElementById('userReason').value;
+
+            quizContainer.style.display = 'none';
+            loadingState.classList.remove('hidden');
+            updateBackBtnVisibility();
+
+            setTimeout(() => {
+                loadingState.classList.add('hidden');
+                showResults();
+            }, 2500);
+        }
+
+        // --- STRATEGY DATA ---
+        const strategies = {
+            conservative: {
+                mainTitle: "The Lakshmi Shield",
+                mainDesc: "Safety focused. Protects capital while beating inflation.",
+                cagr: "10%",
+                allocation: { debt: 50, gold: 30, equity: 20 },
+                items: [
+                    { name: "Sovereign Gold Bond", sub: "Govt Backed", val: "2.5% + Appr", weightPerc: 30 },
+                    { name: "TN Power Finance FD", sub: "State Govt", val: "8.50%", weightPerc: 40 },
+                    { name: "HDFC Balanced Adv", sub: "Low Volatility", val: "~12%", weightPerc: 20 },
+                    { name: "Nifty 50 ETF", sub: "Index Fund", val: "~12%", weightPerc: 10 }
+                ]
+            },
+            moderate: {
+                mainTitle: "The Kubera Balance",
+                mainDesc: "Perfect balance of stability (Gold/FD) and growth (Equity).",
+                cagr: "15%",
+                allocation: { debt: 20, gold: 20, equity: 60 },
+                items: [
+                    { name: "Nippon Gold BeES", sub: "Gold ETF", val: "Market Rate", weightPerc: 20 },
+                    { name: "Parag Parikh Flexi", sub: "Diversified", val: "~18.5%", weightPerc: 30 },
+                    { name: "TVS Motor Co.", sub: "Auto Stock", val: "Live", isStock: true, ticker: "TVSMOTOR", price: 2050.00, weightPerc: 25 },
+                    { name: "Gaja Finance FD", sub: "High Return", val: "20.00%", weightPerc: 25 }
+                ]
+            },
+            aggressive: {
+                mainTitle: "The Indra Growth",
+                mainDesc: "High growth potential via small caps and direct equity.",
+                cagr: "20%",
+                allocation: { debt: 5, gold: 10, equity: 85 },
+                items: [
+                    { name: "Quant Small Cap", sub: "High Alpha", val: "~28.0%", weightPerc: 30 },
+                    { name: "Tata Gold ETF", sub: "Hedge", val: "Market Rate", weightPerc: 10 },
+                    { name: "Tata Elxsi", sub: "Tech Stock", val: "Live", isStock: true, ticker: "TATAELXSI", price: 7600.00, weightPerc: 30 },
+                    { name: "Gaja Finance FD", sub: "High Return", val: "20.00%", weightPerc: 30 }
+                ]
+            }
+        };
+
+        // --- RESULTS & CALCULATION ---
+        function showResults() {
+            resultsDashboard.classList.remove('hidden');
+            document.getElementById('resName').textContent = userData.name;
+            const strategy = strategies[userData.risk] || strategies.moderate;
+            
+            // 1. Calculate Wealth
+            const monthly = parseFloat(userData.savings);
+            const years = parseFloat(userData.duration);
+            const rate = parseFloat(strategy.cagr.replace('%',''));
+            const r = (rate / 100) / 12;
+            const n = years * 12;
+            
+            // FV Formula: P * [ (1+i)^n - 1 ] / i * (1+i)
+            const projectedWealth = monthly * ((Math.pow(1 + r, n) - 1) / r) * (1 + r);
+            const investedAmount = monthly * n;
+            
+            // 2. Display Wealth Stats
+            document.getElementById('dispInvested').innerText = formatCurrency(investedAmount);
+            document.getElementById('dispWealth').innerText = formatCurrency(projectedWealth);
+
+            // 3. Gap Analysis
+            const target = parseFloat(userData.target);
+            const gapBox = document.getElementById('gapContainer');
+            const surBox = document.getElementById('surplusContainer');
+            
+            if(target && target > 0) {
+                if(projectedWealth < target) {
+                    const shortfall = target - projectedWealth;
+                    const requiredMonthly = (target * r) / ((Math.pow(1+r, n)-1) * (1+r));
+                    const extraNeeded = requiredMonthly - monthly;
+                    
+                    gapBox.classList.remove('hidden');
+                    surBox.classList.add('hidden');
+                    document.getElementById('dispGap').innerText = "Shortfall: " + formatCurrency(shortfall);
+                    document.getElementById('dispAdvice').innerText = `Tip: Increase SIP by ₹${Math.ceil(extraNeeded).toLocaleString()} to reach target.`;
+                } else {
+                    gapBox.classList.add('hidden');
+                    surBox.classList.remove('hidden');
+                }
+            } else {
+                // If no target, show surplus container as generic status
+                gapBox.classList.add('hidden');
+                surBox.classList.add('hidden');
+            }
+
+            // 4. Render Strategy Box
+            renderStrategyBox(strategy, monthly);
+            renderPieChart(strategy.allocation);
+            startLiveMarket(strategy);
+        }
+
+        function renderStrategyBox(strategy, monthly) {
+            const card = document.getElementById('mainStrategyBox');
+            const wisdom = getDivineWisdom(userData.reason, userData.goal);
+            
+            let html = `
+                <div class="mb-4 border-b border-gray-100 pb-4">
+                    <h3 class="font-bold text-2xl text-[#8B0000] divine-text">${strategy.mainTitle}</h3>
+                    <p class="text-sm text-gray-600 mt-1">${strategy.mainDesc}</p>
+                    <div class="mt-3 inline-flex items-center bg-orange-50 px-3 py-1 rounded text-xs text-[#8B0000] italic border border-orange-100">
+                        "${wisdom}"
+                    </div>
+                </div>
+                <h4 class="font-bold text-gray-700 text-sm mb-3">Your Monthly Split (₹${monthly.toLocaleString()})</h4>
+                <div class="space-y-3">
+            `;
+            
+            strategy.items.forEach(item => {
+                const splitAmt = Math.round((monthly * item.weightPerc) / 100);
+                let icon = "circle-dollar-sign";
+                if(item.name.includes("Gold")) icon = "coins";
+                if(item.name.includes("FD")) icon = "landmark";
+                
+                html += `
+                    <div class="flex justify-between items-center bg-white p-3 rounded border border-gray-100 shadow-sm">
+                        <div class="flex items-center gap-3">
+                            <div class="text-[#8B0000]"><i data-lucide="${icon}" class="w-4 h-4"></i></div>
+                            <div>
+                                <div class="font-bold text-sm text-gray-800">${item.name}</div>
+                                <div class="text-xs text-gray-500">${item.weightPerc}% Allocation</div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-bold text-[#8B0000]">₹${splitAmt.toLocaleString()}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            html += `</div>`;
+            card.innerHTML = html;
+            lucide.createIcons();
+        }
+
+        function renderPieChart(allocation) {
+            const ctx = document.getElementById('allocationChart').getContext('2d');
+            if (allocationChartInstance) allocationChartInstance.destroy();
+            
+            allocationChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Debt/FD', 'Gold', 'Equity'],
+                    datasets: [{
+                        data: [allocation.debt, allocation.gold, allocation.equity],
+                        backgroundColor: ['#22c55e', '#eab308', '#ef4444'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { 
+                        legend: { position: 'right', labels: { boxWidth: 10, font: {size: 10} } }
+                    }
+                }
+            });
+        }
+
+        // --- PDF ENGINE (PRO VERSION) ---
+        async function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const strategy = strategies[userData.risk] || strategies.moderate;
+            const monthly = parseFloat(userData.savings);
+            
+            // 1. Header
+            doc.setFillColor(139, 0, 0); 
+            doc.rect(0, 0, 210, 30, 'F');
+            doc.setTextColor(255, 215, 0); 
+            doc.setFontSize(22);
+            doc.setFont("helvetica", "bold");
+            doc.text("MAHALAKSHMI FINANCIAL SERVICES", 105, 18, { align: "center" });
+            doc.setFontSize(10);
+            doc.setFont("helvetica", "normal");
+            doc.text("Divine Wealth Management | +91 94435 33619", 105, 26, { align: "center" });
+
+            // 2. Client Info Table
+            let currentY = 40;
+
+            doc.autoTable({
+                startY: currentY,
+                head: [['Client Profile', 'Investment Goal']],
+                body: [
+                    [`Name: ${userData.name}\nAge: ${userData.age}\nContact: ${userData.mobile}`, 
+                     `Goal: ${userData.goal.toUpperCase()}\nDuration: ${userData.duration} Years\nMonthly Inv: Rs. ${monthly.toLocaleString()}`]
+                ],
+                theme: 'grid',
+                headStyles: { fillColor: [218, 165, 32], textColor: 0, fontStyle: 'bold' },
+                styles: { fontSize: 10, cellPadding: 3 }
+            });
+
+            currentY = doc.lastAutoTable.finalY + 15;
+
+            // 3. Strategy Overview & Chart
+            doc.setFontSize(14);
+            doc.setTextColor(139, 0, 0);
+            doc.text(`Selected Strategy: ${strategy.mainTitle}`, 14, currentY);
+            
+            doc.setFontSize(10);
+            doc.setTextColor(60);
+            currentY += 6;
+            doc.text(`Risk Profile: ${userData.risk.toUpperCase()}`, 14, currentY);
+            currentY += 5;
+            doc.text(`Expected CAGR: ${strategy.cagr}`, 14, currentY);
+            
+            // Add Chart on the right side
+            if(allocationChartInstance) {
+                const canvas = document.getElementById('allocationChart');
+                const newCanvas = document.createElement('canvas');
+                newCanvas.width = canvas.width;
+                newCanvas.height = canvas.height;
+                const newCtx = newCanvas.getContext('2d');
+                newCtx.fillStyle = '#FFFFFF';
+                newCtx.fillRect(0, 0, newCanvas.width, newCanvas.height);
+                newCtx.drawImage(canvas, 0, 0);
+                
+                const imgData = newCanvas.toDataURL("image/png", 1.0);
+                doc.addImage(imgData, 'PNG', 140, doc.lastAutoTable.finalY + 5, 50, 50);
+            }
+
+            // Ensure ample space for chart before starting table
+            currentY += 50; 
+
+            // 4. Allocation Table
+            const tableRows = strategy.items.map(item => {
+                const amt = Math.round((monthly * item.weightPerc) / 100);
+                return [item.name, `${item.weightPerc}%`, `Rs. ${amt.toLocaleString()}`, item.sub];
+            });
+            tableRows.push(['TOTAL', '100%', `Rs. ${monthly.toLocaleString()}`, '-']);
+
+            doc.autoTable({
+                startY: currentY,
+                head: [['Instrument', 'Alloc %', 'Monthly Amount', 'Type']],
+                body: tableRows,
+                theme: 'striped',
+                headStyles: { fillColor: [139, 0, 0] },
+                footStyles: { fillColor: [200, 200, 200], textColor: 0, fontStyle: 'bold' }
+            });
+
+            // 5. Summary
+            currentY = doc.lastAutoTable.finalY + 10;
+            
+            // Check page break
+            if (currentY > 260) { // adjusted for box height
+                doc.addPage();
+                currentY = 20;
+            }
+
+            const projWealth = document.getElementById('dispWealth').innerText;
+            const gapText = document.getElementById('dispGap').innerText;
+            const target = userData.target ? `Target: Rs. ${parseInt(userData.target).toLocaleString()}` : "Target: Not Set";
+
+            // Increase box height to 35 to fit 4 lines comfortably
+            doc.setDrawColor(218, 165, 32);
+            doc.setLineWidth(0.5);
+            doc.rect(14, currentY, 180, 35); 
+            
+            doc.setFontSize(11);
+            doc.setTextColor(0);
+            doc.text("Financial Projection Summary:", 18, currentY + 8);
+            
+            doc.setFontSize(10);
+            // Line 1: Projected Corpus
+            doc.text(`• Projected Corpus (End of ${userData.duration} yrs): ${projWealth}`, 18, currentY + 16);
+            
+            // Line 2: Target
+            doc.text(`• ${target}`, 18, currentY + 22);
+            
+            // Line 3: Status/Shortfall (Moved to new line to prevent overlap)
+            if(userData.target && gapText.includes("Shortfall")) {
+                doc.setTextColor(200, 0, 0); // Red
+                doc.text(`• ${gapText} (Action Required)`, 18, currentY + 28);
+            } else {
+                doc.setTextColor(0, 100, 0); // Green
+                doc.text(`• Status: On Track - Your wealth exceeds your target!`, 18, currentY + 28);
+            }
+
+            // Footer
+            doc.setFontSize(8);
+            doc.setTextColor(150);
+            doc.text("Disclaimer: Investments are subject to market risks. Read all scheme related documents carefully.", 105, 285, { align: "center" });
+
+            doc.save("Mahalakshmi_Investment_Statement.pdf");
+        }
+
+        // --- WHATSAPP LOGIC ---
+        function handleWhatsAppClick() {
+            const strategy = strategies[userData.risk] || strategies.moderate;
+            const monthly = parseFloat(userData.savings);
+            const targetMsg = userData.target ? `Target Goal: ₹${userData.target}` : "No specific target set";
+            
+            let splitMsg = "";
+            strategy.items.forEach(item => {
+                const amt = Math.round((monthly * item.weightPerc) / 100);
+                splitMsg += `   - ${item.name}: ₹${amt}\n`;
+            });
+
+            const text = `
+*Namaste! I want to start my Divine Wealth Plan.* 🙏
+
+*👤 Profile:*
+Name: ${userData.name}
+Age: ${userData.age}
+Location: ${userData.location}
+
+*💰 Investment Plan:*
+Monthly Amount: ₹${monthly.toLocaleString()}
+Duration: ${userData.duration} Years
+${targetMsg}
+
+*📊 Selected Strategy: ${strategy.mainTitle}*
+Risk: ${userData.risk.toUpperCase()}
+
+*Proposed Allocation:*
+${splitMsg}
+
+Please help me with the KYC and setup.
+            `.trim();
+            window.open(`https://wa.me/919443533619?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        function handleWhatsAppPremium() {
+            const text = `*Premium Request* 👑\nName: ${userData.name}\nI need a 1-to-1 session for portfolio review.`;
+            window.open(`https://wa.me/919443533619?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        function handleGajaClick() {
+            const text = `*FD Inquiry* 🐘\nI am interested in the 20% Gaja FD.\nAmount: ₹${userData.savings}`;
+            window.open(`https://wa.me/919443533619?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        // Live Market
+        let stockInterval;
+        function startLiveMarket(strategy) {
+            if (stockInterval) clearInterval(stockInterval);
+            stockInterval = setInterval(() => {
+                // Dummy update for live feel
+            }, 3000);
+        }
+
+        // --- CALCULATOR LOGIC ---
+        let calcMode = 'sip';
+        let calcChartInstance = null;
+
+        function toggleCalculator() {
+            const modal = document.getElementById('calculatorModal');
+            if (modal.classList.contains('open')) {
+                modal.classList.remove('open');
+            } else {
+                modal.classList.add('open');
+                updateCalc(); // Initialize chart on open
+            }
+        }
+
+        function closeCalcIfOutside(e) {
+            if (e.target.id === 'calculatorModal') {
+                toggleCalculator();
+            }
+        }
+
+        function setCalcMode(mode) {
+            calcMode = mode;
+            // Update Toggle UI
+            const btnSip = document.getElementById('btnSip');
+            const btnLump = document.getElementById('btnLump');
+            const lblAmount = document.getElementById('lblAmount');
+            const rngAmount = document.getElementById('rngAmount');
+
+            if (mode === 'sip') {
+                btnSip.className = 'tab-btn active';
+                btnLump.className = 'tab-btn inactive';
+                lblAmount.innerText = 'Monthly Investment';
+                rngAmount.max = 100000;
+                rngAmount.value = 25000;
+            } else {
+                btnSip.className = 'tab-btn inactive';
+                btnLump.className = 'tab-btn active';
+                lblAmount.innerText = 'Total Investment';
+                rngAmount.max = 5000000;
+                rngAmount.value = 500000;
+            }
+            updateCalc();
+        }
+
+        function updateCalc() {
+            const amount = parseFloat(document.getElementById('rngAmount').value);
+            const rate = parseFloat(document.getElementById('rngRate').value);
+            const years = parseFloat(document.getElementById('rngYear').value);
+
+            // Update UI Labels
+            document.getElementById('valAmount').innerText = amount.toLocaleString('en-IN');
+            document.getElementById('valRate').innerText = rate;
+            document.getElementById('valYear').innerText = years;
+
+            let invested = 0;
+            let totalValue = 0;
+            let returns = 0;
+
+            if (calcMode === 'sip') {
+                const monthlyRate = rate / 12 / 100;
+                const months = years * 12;
+                invested = amount * months;
+                // FV = P × [ (1 + i)^n - 1 ] / i × (1 + i)
+                totalValue = amount * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate) * (1 + monthlyRate);
+            } else {
+                invested = amount;
+                // A = P(1 + r/100)^n
+                totalValue = amount * Math.pow((1 + rate / 100), years);
+            }
+
+            returns = totalValue - invested;
+
+            // Update Results
+            document.getElementById('resInvested').innerText = formatCurrency(invested);
+            document.getElementById('resReturns').innerText = formatCurrency(returns);
+            document.getElementById('resTotal').innerText = formatCurrency(totalValue);
+
+            renderCalcChart(invested, returns);
+        }
+
+        function renderCalcChart(invested, returns) {
+            const ctx = document.getElementById('calcChart').getContext('2d');
+            
+            if (calcChartInstance) {
+                calcChartInstance.destroy();
+            }
+
+            calcChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Invested', 'Returns'],
+                    datasets: [{
+                        data: [invested, returns],
+                        backgroundColor: ['#f3f4f6', '#8B0000'], // Light Gray for Invested, Royal Red for Returns
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    cutout: '70%',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ' ' + context.label + ': ' + formatCurrency(context.raw);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
